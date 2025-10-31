@@ -6,6 +6,7 @@
 ## Overview
 This repository contains the code for our research work **"TAMAC: Time-Aware Multimodal Action Control for Imitation Learning"**. The paper has been submitted to *ARM 2025*, and we will update the status accordingly.
 
+![TAMAC Architecture](./docs/model.png)
 <!-- ## Paper Information
 **Title:** TAMAC: Time-Aware Multimodal Action Control for Imitation Learning  
 **Authors:** Author1, Author2, Author3  
@@ -22,20 +23,17 @@ git clone https://github.com/Loshawn/TAMAC
 cd TAMAC
 
 # Create a new conda environment with a specific Python version
-conda create --name tamac python=3.9
+conda env create -f conda_env.yaml
 conda activate tamac
-
-# Install dependencies
-pip install -r requirements.txt
 ```
 
 ### Recommended Environment
 
 - **Python**: >= 3.9
-- **PyTorch**: >= 2.0.1
-- **CUDA**: 11.8 (or appropriate version based on your system)
+- **PyTorch**: >= 2.2
+- **CUDA**: 12.1 (or appropriate version based on your system)
 
-> **Note**: We used an NVIDIA 4090 GPU for experiments. If you encounter out-of-memory (OOM) issues due to GPU memory limitations when using the provided parameters (such as the batch size, model size, etc.), we recommend upgrading PyTorch to version 2.2 or higher. The newer versions include optimizations for memory usage and performance improvements, which can help mitigate OOM errors.
+
 
 ## Dataset
 To prepare the dataset, run the dataset preparation script `record_sim_episodes.sh`:
@@ -65,11 +63,11 @@ task_name="your_task"
 log_name="Demo"
 
 python3 imitate_episodes_our.py \
---task_name $task_name \
---ckpt_dir "ckpt/$policy_class/$task_name/$log_name" \
---policy_class $policy_class --kl_weight 10 --chunk_size 50 --hidden_dim 512 --batch_size 4 --dim_feedforward 3200 \
---num_epochs 2000  --lr 1e-5 \
---seed 0
+  --task_name $task_name \
+  --ckpt_dir "ckpt/$policy_class/$task_name/$log_name" \
+  --policy_class $policy_class --kl_weight 10 --chunk_size 50 --hidden_dim 512 --batch_size 4 --dim_feedforward 3200 \
+  --num_epochs 2000  --lr 1e-5 \
+  --seed 0
 ```
 
 If you want to evaluate the model, simply add the `--eval` flag. And if you wish to use temporal ensemble during evaluation, also add the `--temporal_agg` flag.
